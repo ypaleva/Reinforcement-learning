@@ -30,6 +30,7 @@ def main():
     G = nx.path_graph(m0)
     display_graph(G, '', '')
     G = add_nodes_barabasi(G, n, m0)
+    plot_deg_distribution(G)
 
 
 def add_nodes_barabasi(G, n, m0):
@@ -56,6 +57,7 @@ def add_nodes_barabasi(G, n, m0):
         while (num_edges_added < m):
             prev_cum = 0
             r = random.random()
+            # print(r)
             k = 0
             while (not (r > prev_cum and r <= node_probs_cum[k][1])):
                 prev_cum = node_probs_cum[k][1]
@@ -71,8 +73,28 @@ def add_nodes_barabasi(G, n, m0):
             new_edges.append((i, target_node))
 
         print(num_edges_added, ' edges added...')
-        display_graph(G, i, new_edges)
+        # display_graph(G, i, new_edges)
     return G
 
+
+def plot_deg_distribution(G):
+    degrees = nx.degree(G)
+    all_degrees = [x[1] for x in degrees]
+    unique_degrees = list(set(all_degrees))
+    unique_degrees.sort()
+    count_of_degrees = []
+
+    for i in unique_degrees:
+        c = all_degrees.count(i)
+        count_of_degrees.append(c)
+
+    print(unique_degrees)
+    print(count_of_degrees)
+
+    plt.plot(unique_degrees, count_of_degrees, 'ro-')
+    plt.xlabel('Degrees')
+    plt.ylabel('Number of nodes')
+    plt.title('Degree Distribution')
+    plt.show()
 
 main()
