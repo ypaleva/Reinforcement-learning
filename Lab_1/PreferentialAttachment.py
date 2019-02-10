@@ -78,6 +78,7 @@ def add_nodes_barabasi(G, n, m0):
 
 
 def plot_deg_distribution(G):
+
     degrees = nx.degree(G)
     all_degrees = [x[1] for x in degrees]
     unique_degrees = list(set(all_degrees))
