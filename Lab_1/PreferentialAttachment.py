@@ -28,9 +28,16 @@ def main():
     n = int(raw_input('Enter value of n: '))
     m0 = random.randint(2, n / 5)
     G = nx.path_graph(m0)
-    display_graph(G, '', '')
+    # display_graph(G, '', '')
     G = add_nodes_barabasi(G, n, m0)
     plot_deg_distribution(G)
+
+    print('Edges: ', G.edges())
+
+    for i in G.nodes():
+        for j in G.nodes():
+            if i != j:
+                print('Shortest path from node ', i, ' to ', j, ' : ', nx.dijkstra_path(G, i, j))
 
 
 def add_nodes_barabasi(G, n, m0):
@@ -68,7 +75,7 @@ def add_nodes_barabasi(G, n, m0):
                 continue
             else:
                 target_nodes.append(target_node)
-            G.add_edge(i, target_node)
+            G.add_edge(i, target_node, weight=1)
             num_edges_added += 1
             new_edges.append((i, target_node))
 
@@ -78,7 +85,6 @@ def add_nodes_barabasi(G, n, m0):
 
 
 def plot_deg_distribution(G):
-
     degrees = nx.degree(G)
     all_degrees = [x[1] for x in degrees]
     unique_degrees = list(set(all_degrees))
@@ -97,5 +103,6 @@ def plot_deg_distribution(G):
     plt.ylabel('Number of nodes')
     plt.title('Degree Distribution')
     plt.show()
+
 
 main()
