@@ -9,8 +9,6 @@ def F(n):
 
 
 past_fib = {}
-
-
 def DP_F(n):
     if n in past_fib:
         return past_fib[n]

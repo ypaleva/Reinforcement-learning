@@ -1,7 +1,11 @@
 import random
+from collections import OrderedDict
 
+import matplotlib.pyplot as plt
+import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
 from past.builtins import raw_input
 
 
@@ -24,20 +28,38 @@ def display_graph(G, i, ne):
     plt.show()
 
 
+path_lengths = {}
+
+
 def main():
     n = int(raw_input('Enter value of n: '))
     m0 = random.randint(2, n / 5)
     G = nx.path_graph(m0)
     # display_graph(G, '', '')
     G = add_nodes_barabasi(G, n, m0)
-    plot_deg_distribution(G)
+    # plot_deg_distribution(G)
 
     print('Edges: ', G.edges())
 
     for i in G.nodes():
         for j in G.nodes():
             if i != j:
-                print('Shortest path from node ', i, ' to ', j, ' : ', nx.dijkstra_path(G, i, j))
+                edge = str(i) + str(j)
+                path = nx.dijkstra_path(G, i, j)
+                pathL = path.__len__()-1
+                # print('Shortest path from node ', i, ' to ', j, ' : ', path)
+                if not pathL in path_lengths:
+                    path_lengths[pathL] = 1
+                else:
+                    path_lengths[pathL] += 1
+    print(path_lengths)
+    s = OrderedDict(sorted(path_lengths.items(), key=lambda t: t[0]))
+    names = list(s.keys())
+    values = list(s.values())
+    plt.bar(range(len(s)), values, tick_label=names)
+    plt.xlabel('Path length')
+    plt.ylabel('Frequency')
+    plt.show()
 
 
 def add_nodes_barabasi(G, n, m0):
@@ -79,7 +101,7 @@ def add_nodes_barabasi(G, n, m0):
             num_edges_added += 1
             new_edges.append((i, target_node))
 
-        print(num_edges_added, ' edges added...')
+        # print(num_edges_added, ' edges added...')
         # display_graph(G, i, new_edges)
     return G
 
