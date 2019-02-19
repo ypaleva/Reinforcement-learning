@@ -9,7 +9,7 @@ n_states = 40
 iter_max = 10000
 
 initial_lr = 1.0  # Learning rate
-min_lr = 0.003
+min_lr = 0.3
 gamma = 1.0
 t_max = 10000
 epsilon = 0.2

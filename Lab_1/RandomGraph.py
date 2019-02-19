@@ -1,6 +1,6 @@
 import math
 from collections import OrderedDict
-
+import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 import random
@@ -12,7 +12,7 @@ def erdos_renyi(G, p):
     for i in G.nodes():
         for j in G.nodes():
             if i != j:
-                r = random.random()
+                r = np.random.uniform(low=0, high=1)
                 if r <= p:
                     G.add_edge(i, j, weight=1)
                     ne = [(i, j)]
